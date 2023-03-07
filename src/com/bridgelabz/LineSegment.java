@@ -3,22 +3,44 @@ package com.bridgelabz;
 import java.awt.Point;
 
 public class LineSegment implements Comparable<LineSegment> {
-    private Point start;
-    private Point end;
+    private Point startPoint;
+    private Point endPoint;
 
-    public LineSegment(Point start, Point end) {
-        this.start = start;
-        this.end = end;
+    public LineSegment(Point startPoint, Point endPoint) {
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
     }
 
-    public double getLength() {
-        return Math.sqrt(Math.pow(end.getX() - start.getX(), 2) + Math.pow(end.getY() - start.getY(), 2));
+    public Point getStartPoint() {
+        return startPoint;
+    }
+
+    public Point getEndPoint() {
+        return endPoint;
+    }
+
+    public double length() {
+        double dx = endPoint.getX() - startPoint.getX();
+        double dy = endPoint.getY() - startPoint.getY();
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof LineSegment)) {
+            return false;
+        }
+        LineSegment otherLine = (LineSegment) obj;
+        return startPoint.equals(otherLine.getStartPoint()) && endPoint.equals(otherLine.getEndPoint());
     }
 
     @Override
     public int compareTo(LineSegment otherLine) {
-        double thisLength = this.getLength();
-        double otherLength = otherLine.getLength();
+        double thisLength = length();
+        double otherLength = otherLine.length();
         if (thisLength < otherLength) {
             return -1;
         } else if (thisLength > otherLength) {
